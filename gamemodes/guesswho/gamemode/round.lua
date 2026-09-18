@@ -82,10 +82,6 @@ function GWRound:RoundCreateWalkers()
     timer.Simple(self.HideDuration + (5 * wave),
                  function() self:RoundStart() end)
     self:SetEndTime(CurTime() + self.HideDuration + (5 * wave))
-
-    PrintMessage(HUD_PRINTTALK,
-                 "Map will change in " .. self.MaxRounds -
-                     GetGlobalInt("RoundNumber", 0) .. " rounds.")
 end
 
 function GWRound:RoundStart()
@@ -208,13 +204,16 @@ function GWRound:PostRound()
 
     self:UpdateSettings()
 
-    -- teamswap
+    -- Hyltaria : tous les joueurs deviennent Hiders, puis un seul Hunter tiré au hasard
     for _, v in pairs(player.GetAll()) do
-        if v:Team() == GW_TEAM_SEEKING then
-            v:SetTeam(GW_TEAM_HIDING)
-        elseif v:Team() == GW_TEAM_HIDING then
-            v:SetTeam(GW_TEAM_SEEKING)
-        end
+        v:SetTeam(GW_TEAM_HIDING)
+    end
+
+    local plySrv = player.GetAll()
+    local ply = plySrv[math.random(#plySrv)]
+    ply:SetTeam(GW_TEAM_SEEKING)
+
+    for _, v in pairs(player.GetAll()) do
         v:KillSilent()
     end
 

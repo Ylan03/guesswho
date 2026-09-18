@@ -31,10 +31,7 @@ local function CreateTeamJoinButton(teamID, teamLangKey, parent, offsetX, offset
 
     local TeamButton = vgui.Create("DButton", TeamPanel)
     function TeamButton.DoClick()
-        if GAMEMODE:IsBalancedToJoin(teamID) then
-            GAMEMODE:HideTeam()
-            RunConsoleCommand("changeteam", teamID)
-        end
+        RunConsoleCommand("changeteam", teamID)
     end
     TeamButton:SetText("")
     TeamButton:SetSize(280, 280)
