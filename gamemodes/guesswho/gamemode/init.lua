@@ -65,7 +65,9 @@ function GM:EntityTakeDamage(target, dmginfo)
 
     local attacker = dmginfo:GetAttacker()
 
-    if GAMEMODE.GWRound:IsCurrentState(GW_ROUND_SEEK) and target and target:GetClass() == GW_WALKER_CLASS and not target:IsPlayer() and attacker and attacker:IsPlayer() and attacker:Team() == GW_TEAM_SEEKING and attacker:Alive() then
+    -- Hyltaria : le corps laisse par Mind Transfer penalise aussi (avant : sang sans aucune penalite)
+    local isFakeNPC = IsValid(target) and (target:GetClass() == GW_WALKER_CLASS or target:GetClass() == "gw_mind_transfer_fake")
+    if GAMEMODE.GWRound:IsCurrentState(GW_ROUND_SEEK) and isFakeNPC and not target:IsPlayer() and attacker and attacker:IsPlayer() and attacker:Team() == GW_TEAM_SEEKING and attacker:Alive() then
 
         attacker:TakeDamage(GetConVar("gw_damageonfailguess"):GetInt() , target, attacker:GetActiveWeapon())
 
@@ -129,7 +131,7 @@ function GM:OnNPCKilled(ent, attacker, inflictor)
 
         if (attacker:IsPlayer()) then
 
-            if ent:GetClass() == GW_WALKER_CLASS then
+            if ent:GetClass() == GW_WALKER_CLASS or ent:GetClass() == "gw_mind_transfer_fake" then -- Hyltaria
 
                 attacker:TakeDamage(GetConVar("gw_damageonfailguess"):GetInt() * 2, ent, attacker:GetActiveWeapon())
 

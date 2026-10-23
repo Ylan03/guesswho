@@ -11,6 +11,7 @@ function ENT:Initialize()
     end
 
     if SERVER then
+        self:SetLagCompensated(true) -- Hyltaria : meme correctif que gw_npc_walker
         self.boundsSize = 16
         self.boundsHeight = 70
         self:SetCollisionBounds(

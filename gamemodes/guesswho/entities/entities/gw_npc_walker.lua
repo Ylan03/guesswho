@@ -53,6 +53,11 @@ function ENT:Initialize()
     self:SetHealth(HYLTARIA_GW and HYLTARIA_GW.WalkerHealth or 100) -- Hyltaria
 
     if SERVER then
+        -- Hyltaria : sans ca, le serveur ne "remonte pas le temps" pour les NPC quand le Hunter tire.
+        -- Le client voit le NPC la ou il etait il y a ~100 ms + ping, affiche le sang, mais la balle
+        -- rate cote serveur -> ni degats au NPC ni penalite au Hunter.
+        self:SetLagCompensated(true)
+
         self.walkSpeed = GetConVar("gw_hiding_walk_speed"):GetFloat()
         self.runSpeed = GetConVar("gw_hiding_run_speed"):GetFloat()
 
