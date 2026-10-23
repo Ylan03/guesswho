@@ -43,7 +43,7 @@ function SWEP:Ability()
     local xy = math.Round(math.Max(tempEnt:OBBMaxs().x - tempEnt:OBBMins().x, tempEnt:OBBMaxs().y - tempEnt:OBBMins().y) / 2)
     local z = math.Round(tempEnt:OBBMaxs().z - tempEnt:OBBMins().z)
 
-    SafeRemoveEntityDelayed( tempEnt, 7)
+    SafeRemoveEntityDelayed( tempEnt, self.AbilityDuration) -- Hyltaria : suit la duree configuree
 
     local spd
 

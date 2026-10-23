@@ -50,7 +50,7 @@ function ENT:Initialize()
 
     self:SetupColorAndModel()
 
-    self:SetHealth(100)
+    self:SetHealth(HYLTARIA_GW and HYLTARIA_GW.WalkerHealth or 100) -- Hyltaria
 
     if SERVER then
         self.walkSpeed = GetConVar("gw_hiding_walk_speed"):GetFloat()
@@ -639,4 +639,4 @@ function ENT:PathGenerator()
         end
         return cost
     end
-end
+end

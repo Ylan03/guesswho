@@ -97,7 +97,7 @@ function SWEP:Equip()
     if SERVER then
         if GAMEMODE.GWRound:IsCurrentState(GW_ROUND_HIDE) then
             self:GetOwner():SetGWPrepAbility(self:GetClass())
-            if not self:GetOwner():GetGWReRolledAbility() then
+            if not self.IsNoAbility and not self:GetOwner():GetGWReRolledAbility() then -- Hyltaria : pas de message sans capacite
                 self:GetOwner():ChatPrint("Press Reload during hiding phase to reroll your ability. You can only do this once per round.")
             end
         end

@@ -49,6 +49,7 @@ DeriveGamemode("base")
 
 include("player_ext_shd.lua")
 include("sh_config.lua")
+include("sh_hyltaria_config.lua") -- Hyltaria : config centralisee
 include("sh_taunts.lua")
 include("player_class/player_guess_who.lua")
 include("player_class/player_hiding.lua")

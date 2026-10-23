@@ -30,7 +30,7 @@ end
 function plymeta:GWGiveRandomAbility()
     self:StripWeapons()
 
-    self:Give( GAMEMODE.GWConfig.ActiveAbilities[ math.random( 1, #GAMEMODE.GWConfig.ActiveAbilities ) ] )
+    self:Give( HYLTARIA_GW.GetRandomAbility() ) -- Hyltaria : ne plante plus si la liste est vide
 end
 
 function plymeta:GWStartRagdoll(velocityBoost, velocityMultiplier)

@@ -21,14 +21,27 @@ function PLAYER:SetModel()
 end
 
 function PLAYER:Loadout()
-    if GetConVar( "gw_abilities_enabled" ):GetBool() then
-        if self.Player:GetGWDiedInPrep() then
-            self.Player:Give(self.Player:GetGWPrepAbility())
-        else
-            self.Player:Give( GAMEMODE.GWConfig.ActiveAbilities[ math.random( 1, #GAMEMODE.GWConfig.ActiveAbilities ) ] )
+    local ply = self.Player
+
+    -- Hyltaria : capacites desactivees, ou pas de capacite au depart (sh_hyltaria_config.lua)
+    if not GetConVar( "gw_abilities_enabled" ):GetBool() or not HYLTARIA_GW.StartWithAbility then
+        ply:Give( "weapon_gw_default" )
+
+        if SERVER and HYLTARIA_GW.ShowNoAbilityNotification and GetConVar( "gw_abilities_enabled" ):GetBool()
+            and GetConVar( "gw_touches_enabled" ):GetBool() and GAMEMODE.GWRound:IsCurrentState( GW_ROUND_HIDE ) then
+            local touches = GetConVar( "gw_touches_required" ):GetInt()
+            GWNotifications:Add( "gwNoAbility", "<font=gw_font_normal>Pas de capacite</font>",
+                "<font=gw_font_small>Touche le Hunter " .. touches .. " fois pour obtenir une capacite aleatoire.</font>", 10, ply )
         end
+        return
+    end
+
+    -- Mort pendant la cache : il recupere la capacite qu'il avait
+    local prepAbility = ply:GetGWPrepAbility()
+    if ply:GetGWDiedInPrep() and prepAbility and prepAbility ~= "" and prepAbility ~= "weapon_gw_default" then
+        ply:Give( prepAbility )
     else
-        self.Player:Give( "weapon_gw_default" )
+        ply:Give( HYLTARIA_GW.GetRandomAbility() )
     end
 end
 
@@ -38,6 +51,11 @@ function PLAYER:Spawn()
     local clr = GAMEMODE.GWConfig.WalkerColors[math.random(1, #GAMEMODE.GWConfig.WalkerColors)]
     self.Player:SetPlayerColor(Vector(clr.r / 255, clr.g / 255, clr.b / 255))
     self.Player:SetCustomCollisionCheck(true)
+
+    -- Hyltaria : PV et saut (sh_hyltaria_config.lua)
+    self.Player:SetMaxHealth( HYLTARIA_GW.HiderHealth )
+    self.Player:SetHealth( HYLTARIA_GW.HiderHealth )
+    self.Player:SetJumpPower( HYLTARIA_GW.HiderJumpPower )
 end
 
 

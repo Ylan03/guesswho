@@ -32,12 +32,17 @@ end
 function PLAYER:Loadout()
     self.Player:Give( "weapon_gw_seeker_crowbar" )
     self.Player:Give( "weapon_smg1" )
-    self.Player:GiveAmmo( 200, "smg1", true )
-    self.Player:GiveAmmo( 1, "smg1_grenade", true )
+    self.Player:GiveAmmo( HYLTARIA_GW.HunterSMGAmmo, "smg1", true )
+    self.Player:GiveAmmo( HYLTARIA_GW.HunterGrenades, "smg1_grenade", true )
 end
 
 function PLAYER:Spawn()
     self.Player:SetCustomCollisionCheck(true)
+
+    -- Hyltaria : PV et saut (sh_hyltaria_config.lua)
+    self.Player:SetMaxHealth( HYLTARIA_GW.HunterHealth )
+    self.Player:SetHealth( HYLTARIA_GW.HunterHealth )
+    self.Player:SetJumpPower( HYLTARIA_GW.HunterJumpPower )
 end
 
 player_manager.RegisterClass( "player_seeker", PLAYER, "player_guess_who" )

@@ -34,6 +34,9 @@ SWEP.HoldType = "melee"
 SWEP.Delay = 0.7
 SWEP.Range = 85
 SWEP.Damage = 20
+-- Hyltaria : multiplicateurs reglables dans sh_hyltaria_config.lua
+SWEP.PlayerDamageMultiplier = 2
+SWEP.NPCDamageMultiplier = 3
 SWEP.AutoSpawnable = false
 
 SWEP.DashRestoreDelay = 3
@@ -112,9 +115,9 @@ function SWEP:PrimaryAttack()
             if SERVER and IsValid(hitEnt) then
 
                 if hitEnt:IsPlayer() then
-                    hitEnt:TakeDamage(self.Damage * 2, self:GetOwner(), self)
+                    hitEnt:TakeDamage(self.Damage * self.PlayerDamageMultiplier, self:GetOwner(), self)
                 else
-                    hitEnt:TakeDamage(self.Damage * 3, self:GetOwner(), self)
+                    hitEnt:TakeDamage(self.Damage * self.NPCDamageMultiplier, self:GetOwner(), self)
                 end
 
                 if (hitEnt:GetClass() == "func_breakable" or hitEnt:GetClass() == "func_breakable_surf") then

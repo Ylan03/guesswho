@@ -6,6 +6,7 @@ AddCSLuaFile("player_class/player_hiding.lua")
 AddCSLuaFile("player_class/player_seeker.lua")
 AddCSLuaFile("sh_animations.lua")
 AddCSLuaFile("sh_config.lua")
+AddCSLuaFile("sh_hyltaria_config.lua") -- Hyltaria
 AddCSLuaFile("sh_taunts.lua")
 AddCSLuaFile("sh_notifications.lua")
 
@@ -86,11 +87,9 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
 
         if attacker:Team() == GW_TEAM_SEEKING then
             attacker:AddFrags(1)
-            if attacker:Health() + GetConVar("gw_damageonfailguess"):GetInt() * 2 > 100 then
-                attacker:Health(100)
-            else
-                attacker:SetHealth(attacker:Health() + GetConVar("gw_damageonfailguess"):GetInt() * 2)
-            end
+            -- Hyltaria : plafond = PV max du Hunter (corrige aussi Health(100) qui ne soignait pas)
+            local healed = attacker:Health() + GetConVar("gw_damageonfailguess"):GetInt() * 2
+            attacker:SetHealth(math.min(healed, attacker:GetMaxHealth()))
         end
 
     end
